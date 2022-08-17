@@ -1,19 +1,16 @@
 import React from 'react'
 
-interface buttonProps {
-  className?: string
-  children?: any
-  onClick?: (params: any) => any
-  disabled?: boolean
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  title: string;
+  showIcon: boolean;
 }
 
-export const Button = (props: buttonProps) => {
-  const { className, children, onClick, disabled } = props
+export const Button = (props: ButtonProps ) => {
+  const { className, children } = props
   return (
     <button
       className={`bg-black text-white ${className}`}
-      onClick={onClick}
-      disabled={disabled}
+      {...props}
     >
       {children}
     </button>
