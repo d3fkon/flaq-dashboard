@@ -1,8 +1,6 @@
 import React, { ButtonHTMLAttributes, InputHTMLAttributes } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  // title: string;
-  // showIcon: boolean;
   size?: 'sm' | 'md' | 'lg'
   rounded?: 'sm' | 'md' | 'lg'
   fullWidth?: boolean
@@ -28,7 +26,7 @@ export const Button = (props: ButtonProps) => {
 
   return (
     <button
-      className={`bg-white  ${getDarkVariant()} rounded-full text-black ${getSizeClasses()} ${className}`}
+      className={`bg-black text-white ${getDarkVariant()} rounded-full  ${getSizeClasses()} ${className}`}
       {...props}
     >
       {children}

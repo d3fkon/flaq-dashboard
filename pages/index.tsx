@@ -87,32 +87,39 @@ const Home: NextPage = () => {
 
             <div id="my-content" className="text-4xl font-extrabold ">
               <h1 className="mt-10 mb-7">My Content</h1>
-              <div
-                id="my-content-card"
-                className="relative px-6 py-4 rounded-[30px] shadow-md border border-slate-300 shadow-slate-400"
-              >
-                <div className="absolute top-3 right-2">
-                  <DoubleDot />
-                </div>
-                <div className="w-4 h-4 mb-3">
-                  {/* <PlayIcon /> */}
-                  <Image
-                    src={
-                      'https://c4.wallpaperflare.com/wallpaper/365/244/884/uchiha-itachi-naruto-shippuuden-anbu-silhouette-wallpaper-preview.jpg'
-                    }
-                    height="16px"
-                    width="16px"
-                    alt="Uchiha Itachi"
-                  />
-                </div>
-                <div>
-                  <p className="text-lg font-semibold">
-                    New BlockChain and Future
-                  </p>
-                  <p className="text-base text-[#b5b5b5] max-w-xs ">
-                    A short video on why Neo Blockchain is potentially the
-                    biggest player in...
-                  </p>
+              <div id="cards-container">
+                <div
+                  id="my-content-card"
+                  className="flex flex-col gap-2 rounded-3xl p-6 shadow-flaq"
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="h-16 w-16 rounded-lg">
+                      <Image
+                        src={
+                          'https://c4.wallpaperflare.com/wallpaper/365/244/884/uchiha-itachi-naruto-shippuuden-anbu-silhouette-wallpaper-preview.jpg'
+                        }
+                        height="100%"
+                        width="100%"
+                        alt="Uchiha Itachi"
+                        className="object-cover rounded-lg"
+                      />
+                    </div>
+                    <div className="flex justify-center items-center">
+                      <DoubleDot />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold">
+                      {' '}
+                      New BlockChain and Future
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-base text-gray-400 max-w-xs ">
+                      A short video on why Neo Blockchain is potentially the
+                      biggest player in...
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -149,7 +156,7 @@ const Home: NextPage = () => {
               <div id="learning-history " className="flex flex-col gap-8">
                 <div
                   id="history-card"
-                  className="flex flex-row items-center justify-between p-8 shadow-md border-slate-300 rounded-3xl shadow-slate-400"
+                  className="flex flex-row items-center justify-between p-8 shadow-flaq rounded-3xl "
                 >
                   <div>
                     <p className="text-base font-bold">Project Time Tracker</p>
@@ -166,7 +173,7 @@ const Home: NextPage = () => {
 
                 <div
                   id="history-card"
-                  className="flex flex-row items-center justify-between p-8 leading-tight tracking-widest shadow-2xl border-slate-300 rounded-3xl shadow-slate-400"
+                  className="flex flex-row items-center justify-between p-8 leading-tight tracking-widest shadow-flaq  rounded-3xl"
                 >
                   <div>
                     <p className="text-base font-bold">Project Time Tracker</p>
