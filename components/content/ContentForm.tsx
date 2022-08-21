@@ -9,13 +9,13 @@ const ContentForm = () => {
 
   const videoType = (
     <>
-      <div >
+      <div>
         <div>
           <h1 className="text-[#818BF5] text-xl font-semibold pb-2">Upload</h1>
         </div>
-        <div className='flex justify-center flex-col gap-2'>
+        <div className="flex flex-col justify-center gap-2">
           <Label htmlFor="">Youtube Link</Label>
-          <input type="text" className="border border-black rounded-md p-2" />
+          <input type="text" className="p-2 border border-black rounded-md" />
         </div>
       </div>
     </>
@@ -55,8 +55,11 @@ const ContentForm = () => {
   }
   return (
     <React.Fragment>
-      <form action="" className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4 max-h-[450px] overflow-y-auto shadow-ctm-inr px-4 py-2">
+      <form
+        action=""
+        className="flex flex-col gap-6 overflow-scroll max-h-[40rem]"
+      >
+        <div className="flex flex-col gap-4 px-4 py-2 overflow-y-auto">
           <div>
             <div>
               <h1 className="text-[#818BF5] text-xl font-semibold pb-2">
@@ -68,21 +71,21 @@ const ContentForm = () => {
               <div className="flex items-start gap-8">
                 <div className="flex flex-col">
                   <Label htmlFor="">Logo</Label>
-                  <span className="h-24 w-24 bg-gray-300 rounded-md"></span>
+                  <span className="w-24 h-24 bg-gray-300 rounded-md"></span>
                 </div>
-                <div className="grow flex flex-col gap-4">
+                <div className="flex flex-col gap-4 grow">
                   <div className="flex flex-col">
                     <Label htmlFor="">Name</Label>
                     <input
                       type="text"
-                      className="border border-black rounded-md p-2"
+                      className="p-2 border rounded-md border-slate-600"
                     />
                   </div>
                   <div className="flex flex-col">
                     <Label htmlFor="">Describe your content</Label>
                     <input
                       type="text"
-                      className="border border-black rounded-md p-2 h-20"
+                      className="h-20 p-2 border rounded-md border-slate-600"
                     />
                   </div>
                 </div>
@@ -96,14 +99,14 @@ const ContentForm = () => {
                 Content Type
               </h1>
             </div>
-            <div className="flex items-center flex-col md:flex-row gap-6 ">
+            <div className="flex flex-col items-center gap-6 md:flex-row ">
               {contentOptions?.map((content) => {
                 return (
                   <div
                     key={content.id.toString()}
-                    className={`flex flex-col gap-2 min-w-[200px] pl-4 pt-8 pb-4 cursor-pointer rounded-md border-2 border-gray-500 ${
+                    className={`flex flex-col gap-2 min-w-[200px] pl-4 pt-8 pb-4 cursor-pointer rounded-md border border-gray-400 ${
                       activeContentType.id === content.id &&
-                      'border-2 border-[#818BF5] bg-slate-100'
+                      'border-violet-500 bg-slate-100'
                     }`}
                     onClick={() => setActiveContentType(content)}
                   >
