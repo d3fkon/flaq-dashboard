@@ -37,7 +37,7 @@ const Sidebar = () => {
             {sidebarOptions.map((option) => {
               return (
                 <div
-                  id={option.id.toString()}
+                  key={option.id.toString()}
                   className={`flex items-center gap-4 py-3 rounded-r-[1.25rem] text-sm hover:bg-gray-100 cursor-pointer ${
                     activePageId === option.id && 'bg-black text-white hover:bg-black'
                   }`}

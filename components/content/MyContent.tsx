@@ -25,7 +25,7 @@ const MyContent = (props: any) => {
           </div>
         </div>
 
-        <div id="my-content" className="text-4xl font-extrabold ">
+        <div id="my-content" className="text-4xl font-extrabold">
           <h1 className="mt-10 mb-7">My Content</h1>
           <div id="cards-container">
             <div
@@ -54,7 +54,7 @@ const MyContent = (props: any) => {
                 </p>
               </div>
               <div>
-                <p className="text-base font-normal text-gray-400 max-w-xs leading-none">
+                <p className="text-base font-normal text-gray-400 max-w-md leading-none">
                   A short video on why Neo Blockchain is potentially the biggest
                   player in...
                 </p>

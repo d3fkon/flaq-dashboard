@@ -6,7 +6,6 @@ import { PlayIcon } from '../icons/PlayIcon'
 const RecentHistory = () => {
   return (
     <React.Fragment>
-      <div id="recent-content" className="px-8 grow">
             <div>
               <div
                 id="profile-component"
@@ -70,7 +69,6 @@ const RecentHistory = () => {
                 </div>
               </div>
             </div>
-          </div>
     </React.Fragment>
   )
 }

@@ -12,7 +12,7 @@ export const Cross = () => {
       <path
         d="M7 21L21 7M7 7L21 21"
         stroke="black"
-        stroke-width="2.2803"
+        strokeWidth="2.2803"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
