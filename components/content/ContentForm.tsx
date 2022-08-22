@@ -57,7 +57,7 @@ const ContentForm = () => {
     <React.Fragment>
       <form
         action=""
-        className="flex flex-col gap-6 overflow-scroll max-h-[40rem]"
+        className="flex flex-col gap-6 overflow-scroll max-h-[36rem]"
       >
         <div className="flex flex-col gap-4 px-4 py-2 overflow-y-auto">
           <div>
@@ -99,12 +99,12 @@ const ContentForm = () => {
                 Content Type
               </h1>
             </div>
-            <div className="flex flex-col items-center gap-6 md:flex-row ">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4">
               {contentOptions?.map((content) => {
                 return (
                   <div
                     key={content.id.toString()}
-                    className={`flex flex-col gap-2 min-w-[200px] pl-4 pt-8 pb-4 cursor-pointer rounded-md border border-gray-400 ${
+                    className={`basis-full md:basis-1/3 grow flex flex-col gap-2 pl-4 pt-8 pb-4 pr-2 cursor-pointer rounded-md border border-gray-400 ${
                       activeContentType.id === content.id &&
                       'border-violet-500 bg-slate-100'
                     }`}
@@ -113,8 +113,8 @@ const ContentForm = () => {
                     <span>
                       <VideoUploadIcon />
                     </span>
-                    <span className="font-semibold">{content.label}</span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm font-semibold">{content.label}</span>
+                    <span className="text-xs text-gray-500">
                       {content.text}
                     </span>
                   </div>
