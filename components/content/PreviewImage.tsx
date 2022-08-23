@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 
-const PreviewImage = ({ file } : any) => {
+const PreviewImage = ({ file }: any) => {
   const [preview, setPreview] = useState('')
   const reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = () => {
-    //@ts-ignore
-    setPreview(reader.result)
+    setPreview(reader.result!.toString())
   }
-  return <div className='h-full w-full'>
-    <img src={preview} alt="prevew" className='h-full w-full rounded-md'/>
-  </div>
+  return (
+    <div className="w-full h-full">
+      <img src={preview} alt="prevew" className="w-full h-full rounded-md" />
+    </div>
+  )
 }
 
 export default PreviewImage

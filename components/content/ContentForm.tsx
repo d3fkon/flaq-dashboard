@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 
 const ContentForm = () => {
   const [activeContentType, setActiveContentType] = useState(contentOptions[0])
-  const imageInputRef = useRef(null)
+  const imageInputRef = useRef<HTMLInputElement | null>(null)
   interface MyValues {
     image: string
     name: string
@@ -79,7 +79,9 @@ const ContentForm = () => {
             className="p-2 border border-black rounded-md"
           />
           {formik.errors.videoLink && formik.touched.videoLink ? (
-            <span className="text-red-500 text-xs">{formik.errors.videoLink}</span>
+            <span className="text-xs text-red-500">
+              {formik.errors.videoLink}
+            </span>
           ) : null}
         </div>
       </div>
@@ -102,7 +104,9 @@ const ContentForm = () => {
             onChange={handleCustomChange}
           />
           {formik.errors.article && formik.touched.article ? (
-            <span className="text-red-500 text-xs">{formik.errors.article}</span>
+            <span className="text-xs text-red-500">
+              {formik.errors.article}
+            </span>
           ) : null}
         </div>
       </div>
@@ -154,7 +158,6 @@ const ContentForm = () => {
                     <span
                       className="w-24 h-24 rounded-md"
                       onClick={() => {
-                        //@ts-ignore
                         imageInputRef.current && imageInputRef?.current?.click()
                       }}
                     >
@@ -164,7 +167,6 @@ const ContentForm = () => {
                     <span
                       className="w-24 h-24 bg-gray-300 rounded-md"
                       onClick={() => {
-                        //@ts-ignore
                         imageInputRef.current && imageInputRef?.current?.click()
                       }}
                     ></span>
@@ -181,7 +183,9 @@ const ContentForm = () => {
                       onChange={handleCustomChange}
                     />
                     {formik.errors.name && formik.touched.name ? (
-                      <span className="text-red-500 text-xs">{formik.errors.name}</span>
+                      <span className="text-xs text-red-500">
+                        {formik.errors.name}
+                      </span>
                     ) : null}
                   </div>
                   <div className="flex flex-col">
@@ -194,7 +198,7 @@ const ContentForm = () => {
                       onChange={handleCustomChange}
                     />
                     {formik.errors.description && formik.touched.description ? (
-                      <span className="text-red-500 text-xs">
+                      <span className="text-xs text-red-500">
                         {formik.errors.description}
                       </span>
                     ) : null}
@@ -210,7 +214,7 @@ const ContentForm = () => {
                 Content Type
               </h1>
             </div>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
               {contentOptions?.map((content) => {
                 return (
                   <div
