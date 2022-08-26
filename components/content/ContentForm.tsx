@@ -40,20 +40,22 @@ const ContentForm = () => {
     if (!e) return
     const { name, value, files } = e.currentTarget
     if (name === 'image' || name === 'articleLogo') {
-      // const body = {
-      //   fileName: files && files[0].name,
-      //   fileExtention:  files && files[0].name.split('.').pop()
-      // }
-
       const body = {
-        fileName: "string",
-        fileExtention:  "string"
+        fileName: files && files[0].name,
+        fileExtention:  files && files[0].name.split('.').pop()
       }
+
       formik.setFieldValue(name, files && files[0])
       console.log(body);
       const res = await axios.post('http://api.flaq.club:3030/utils', body);
-      console.log(res);
-      console.log(files)
+      const inputFormData = new FormData();
+      const file:any = files && files[0];
+      inputFormData.append('file',file)
+      console.log(inputFormData);
+      // console.log(files)
+      console.log(res.data.url);
+      const res2 = await axios.put(res.data.url, inputFormData)
+      console.log(res2);
     } else {
       formik.handleChange(e)
     }
