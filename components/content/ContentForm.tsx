@@ -6,31 +6,54 @@ import { VideoUploadIcon } from '../../icons/VideoUploadIcon'
 import { contentOptions } from './content.constants'
 import PreviewImage from './PreviewImage'
 import * as Yup from 'yup'
+import { getRequest, postRequest } from '../../services/api.service'
+import { createContent } from './content.service'
+import axios from 'axios'
 
 const ContentForm = () => {
   const [activeContentType, setActiveContentType] = useState(contentOptions[0])
   const imageInputRef = useRef<HTMLInputElement | null>(null)
+  const articleLogoInputRef = useRef<HTMLInputElement | null>(null)
   interface MyValues {
     image: string
-    name: string
+    title: string
     description: string
     contentType: string
     videoLink: string
-    article: string
+    articleLogo: string
+    articleTitle: string
+    articleLink: string
   }
+
   const initialValues = {
     image: '',
-    name: '',
+    title: '',
     description: '',
     contentType: contentOptions[0].label,
     videoLink: '',
-    article: '',
+    articleLogo: '',
+    articleTitle: '',
+    articleLink: '',
   }
-  const handleCustomChange = (e: React.FormEvent<HTMLInputElement>) => {
+
+  const handleCustomChange = async (e: React.FormEvent<HTMLInputElement>) => {
     if (!e) return
     const { name, value, files } = e.currentTarget
-    if (name === 'image') {
-      formik.setFieldValue('image', files && files[0])
+    if (name === 'image' || name === 'articleLogo') {
+      // const body = {
+      //   fileName: files && files[0].name,
+      //   fileExtention:  files && files[0].name.split('.').pop()
+      // }
+
+      const body = {
+        fileName: "string",
+        fileExtention:  "string"
+      }
+      formik.setFieldValue(name, files && files[0])
+      console.log(body);
+      const res = await axios.post('http://api.flaq.club:3030/utils', body);
+      console.log(res);
+      console.log(files)
     } else {
       formik.handleChange(e)
     }
@@ -38,26 +61,60 @@ const ContentForm = () => {
 
   const validationSchema = Yup.object({
     // image: Yup.object.required("Please upload an image"),
-    name: Yup.string().required('Name is Required*'),
+    title: Yup.string().required('title is Required*'),
     description: Yup.string().required('Description is Required*'),
     contentType: Yup.string().required('contentType is Required*'),
     videoLink: Yup.string().when('contentType', {
-      is: 'Video' || 'Video + Article',
+      is: (contentType: string) =>
+        contentType === 'Video' || contentType === 'Video + Article',
       then: Yup.string().required('Video Link is Required*'),
     }),
-    article: Yup.string().when('contentType', {
-      is: 'Article' || 'Video + Article',
-      then: Yup.string().required('Article is Required*'),
+    articleTitle: Yup.string().when('contentType', {
+      is: (contentType: string) =>
+        contentType === 'Article' || contentType === 'Video + Article',
+      then: Yup.string().required('Article title is Required*'),
+    }),
+
+    articleLink: Yup.string().when('contentType', {
+      is: (contentType: string) =>
+        contentType === 'Article' || contentType === 'Video + Article',
+      then: Yup.string().required('Article Link is Required*'),
     }),
   })
-
-  // const formik = useFormik<MyValues>({});
 
   const formik: FormikProps<MyValues> = useFormik<MyValues>({
     initialValues,
     validationSchema,
     onSubmit: () => {
-      console.log(formik.values)
+      const {
+        image,
+        title,
+        description,
+        contentType,
+        videoLink,
+        articleLogo,
+        articleTitle,
+        articleLink,
+      } = formik.values
+
+      const createContentPayload = {
+        description,
+        title,
+        image,
+        contentType,
+        yTVideoUrl: videoLink,
+        articles: [
+          {
+            url: articleLink,
+            title: articleTitle,
+            iconUrl: articleLogo,
+          },
+        ],
+        quizzes: [''],
+      }
+
+      // console.log(createContentPayload)
+      createContent(createContentPayload)
       formik.resetForm()
       setActiveContentType(contentOptions[0])
     },
@@ -92,22 +149,72 @@ const ContentForm = () => {
     <>
       <div>
         <div>
-          <h1 className="text-[#818BF5] text-xl font-semibold pb-2">Write</h1>
+          <h1 className="text-[#818BF5] text-xl font-semibold pb-2">
+            Upload Article
+          </h1>
         </div>
-        <div>
-          <Label htmlFor="">write something interesting</Label>
-          <input
-            type="text"
-            className="border border-black rounded-md p-2 w-full h-[300px]"
-            name="article"
-            value={formik.values.article}
-            onChange={handleCustomChange}
-          />
-          {formik.errors.article && formik.touched.article ? (
-            <span className="text-xs text-red-500">
-              {formik.errors.article}
-            </span>
-          ) : null}
+        <div className="flex flex-row items-start gap-8">
+          <div className="flex flex-col justify-center">
+            <Label htmlFor="">Article logo</Label>
+            <input
+              hidden
+              type="file"
+              name="articleLogo"
+              onChange={handleCustomChange}
+              ref={articleLogoInputRef}
+            />
+            {formik.values.articleLogo ? (
+              <span
+                className="w-24 h-24 rounded-md"
+                onClick={() => {
+                  articleLogoInputRef.current &&
+                    articleLogoInputRef?.current?.click()
+                }}
+              >
+                <PreviewImage file={formik.values.articleLogo} />
+              </span>
+            ) : (
+              <span
+                className="w-24 h-24 bg-gray-300 rounded-md"
+                onClick={() => {
+                  articleLogoInputRef.current &&
+                    articleLogoInputRef?.current?.click()
+                }}
+              ></span>
+            )}
+          </div>
+          <div className="grow flex flex-col justify-center gap-4">
+            <div className="flex flex-col justify-center">
+              <Label htmlFor="">Article Title</Label>
+              <input
+                type="text"
+                className="p-2 border rounded-md border-slate-600"
+                name="articleTitle"
+                value={formik.values.articleTitle}
+                onChange={handleCustomChange}
+              />
+              {formik.errors.articleTitle && formik.touched.articleTitle ? (
+                <span className="text-xs text-red-500">
+                  {formik.errors.articleTitle}
+                </span>
+              ) : null}
+            </div>
+            <div className="flex flex-col justify-center">
+              <Label htmlFor="">Article Link</Label>
+              <input
+                type="text"
+                className="p-2 border rounded-md border-slate-600"
+                name="articleLink"
+                value={formik.values.articleLink}
+                onChange={handleCustomChange}
+              />
+              {formik.errors.articleLink && formik.touched.articleTitle ? (
+                <span className="text-xs text-red-500">
+                  {formik.errors.articleLink}
+                </span>
+              ) : null}
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -122,12 +229,16 @@ const ContentForm = () => {
       case 'Video + Article':
         return (
           <>
-            {videoType}
-            {articleType}
+            <div className="flex flex-col justify-center gap-6">
+              {videoType}
+              {articleType}
+            </div>
           </>
         )
     }
   }
+
+  // useEffect(()=>{ console.log(formik.values.contentType) },[formik])
   return (
     <React.Fragment>
       <form
@@ -174,17 +285,17 @@ const ContentForm = () => {
                 </div>
                 <div className="flex flex-col gap-4 grow">
                   <div className="flex flex-col">
-                    <Label htmlFor="">Name</Label>
+                    <Label htmlFor="">Title</Label>
                     <input
                       type="text"
                       className="p-2 border rounded-md border-slate-600"
-                      name="name"
-                      value={formik.values.name}
+                      name="title"
+                      value={formik.values.title}
                       onChange={handleCustomChange}
                     />
-                    {formik.errors.name && formik.touched.name ? (
+                    {formik.errors.title && formik.touched.title ? (
                       <span className="text-xs text-red-500">
-                        {formik.errors.name}
+                        {formik.errors.title}
                       </span>
                     ) : null}
                   </div>
@@ -208,9 +319,9 @@ const ContentForm = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <div>
-              <h1 className="text-[#818BF5] text-xl font-semibold pb-2">
+              <h1 className="text-[#818BF5] text-xl font-semibold">
                 Content Type
               </h1>
             </div>
