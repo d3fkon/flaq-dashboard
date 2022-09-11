@@ -7,11 +7,15 @@ import { contentOptions } from './content.constants'
 import PreviewImage from './PreviewImage'
 import * as Yup from 'yup'
 import { getRequest, postRequest } from '../../services/api.service'
-import { createContent } from './content.service'
+import { createContent, getSignedUrl, uploadDoc } from './content.service'
 import axios from 'axios'
+import { getCreateContentPayload } from './content.helper'
 
 const ContentForm = () => {
   const [activeContentType, setActiveContentType] = useState(contentOptions[0])
+  const [imageFile, setImageFile] = useState('')
+  const [articleLogoFile, setArticleLogoFile] = useState('')
+
   const imageInputRef = useRef<HTMLInputElement | null>(null)
   const articleLogoInputRef = useRef<HTMLInputElement | null>(null)
   interface MyValues {
@@ -40,22 +44,17 @@ const ContentForm = () => {
     if (!e) return
     const { name, value, files } = e.currentTarget
     if (name === 'image' || name === 'articleLogo') {
-      const body = {
-        fileName: files && files[0].name,
-        fileExtention:  files && files[0].name.split('.').pop()
+      const file: any = files && files[0]
+      const { key, url } = await getSignedUrl(file)
+      const isUploaded = await uploadDoc(url, file)
+      if (isUploaded) {
+        const accessFile =`https://flaq-assets.s3.ap-south-1.amazonaws.com/upload/${file.name}`
+        name === 'image' && setImageFile(file)
+        name === 'articleLogo' && setArticleLogoFile(file)
+        formik.setFieldValue(name, accessFile)
+      } else {
+        console.log('something went wrong try again')
       }
-
-      formik.setFieldValue(name, files && files[0])
-      console.log(body);
-      const res = await axios.post('http://api.flaq.club:3030/utils', body);
-      const inputFormData = new FormData();
-      const file:any = files && files[0];
-      inputFormData.append('file',file)
-      console.log(inputFormData);
-      // console.log(files)
-      console.log(res.data.url);
-      const res2 = await axios.put(res.data.url, inputFormData)
-      console.log(res2);
     } else {
       formik.handleChange(e)
     }
@@ -68,18 +67,18 @@ const ContentForm = () => {
     contentType: Yup.string().required('contentType is Required*'),
     videoLink: Yup.string().when('contentType', {
       is: (contentType: string) =>
-        contentType === 'Video' || contentType === 'Video + Article',
+        contentType === 'Video' || contentType === 'VideoAndArticles',
       then: Yup.string().required('Video Link is Required*'),
     }),
     articleTitle: Yup.string().when('contentType', {
       is: (contentType: string) =>
-        contentType === 'Article' || contentType === 'Video + Article',
+        contentType === 'Articles' || contentType === 'VideoAndArticles',
       then: Yup.string().required('Article title is Required*'),
     }),
 
     articleLink: Yup.string().when('contentType', {
       is: (contentType: string) =>
-        contentType === 'Article' || contentType === 'Video + Article',
+        contentType === 'Articles' || contentType === 'VideoAndArticles',
       then: Yup.string().required('Article Link is Required*'),
     }),
   })
@@ -87,38 +86,13 @@ const ContentForm = () => {
   const formik: FormikProps<MyValues> = useFormik<MyValues>({
     initialValues,
     validationSchema,
-    onSubmit: () => {
-      const {
-        image,
-        title,
-        description,
-        contentType,
-        videoLink,
-        articleLogo,
-        articleTitle,
-        articleLink,
-      } = formik.values
-
-      const createContentPayload = {
-        description,
-        title,
-        image,
-        contentType,
-        yTVideoUrl: videoLink,
-        articles: [
-          {
-            url: articleLink,
-            title: articleTitle,
-            iconUrl: articleLogo,
-          },
-        ],
-        quizzes: [''],
-      }
-
-      // console.log(createContentPayload)
-      createContent(createContentPayload)
-      formik.resetForm()
+    onSubmit: async () => {
+      const createContentPayload = await getCreateContentPayload(formik)
+      await createContent(createContentPayload)
+      setImageFile('')
+      setArticleLogoFile('')
       setActiveContentType(contentOptions[0])
+      formik.resetForm()
     },
   })
 
@@ -165,7 +139,7 @@ const ContentForm = () => {
               onChange={handleCustomChange}
               ref={articleLogoInputRef}
             />
-            {formik.values.articleLogo ? (
+            {articleLogoFile ? (
               <span
                 className="w-24 h-24 rounded-md"
                 onClick={() => {
@@ -173,7 +147,7 @@ const ContentForm = () => {
                     articleLogoInputRef?.current?.click()
                 }}
               >
-                <PreviewImage file={formik.values.articleLogo} />
+                <PreviewImage file={articleLogoFile} />
               </span>
             ) : (
               <span
@@ -240,7 +214,6 @@ const ContentForm = () => {
     }
   }
 
-  // useEffect(()=>{ console.log(formik.values.contentType) },[formik])
   return (
     <React.Fragment>
       <form
@@ -267,14 +240,14 @@ const ContentForm = () => {
                     onChange={handleCustomChange}
                     ref={imageInputRef}
                   />
-                  {formik.values.image ? (
+                  {imageFile ? (
                     <span
                       className="w-24 h-24 rounded-md"
                       onClick={() => {
                         imageInputRef.current && imageInputRef?.current?.click()
                       }}
                     >
-                      <PreviewImage file={formik.values.image} />
+                      <PreviewImage file={imageFile} />
                     </span>
                   ) : (
                     <span
@@ -339,7 +312,7 @@ const ContentForm = () => {
                     onClick={() => {
                       formik.setFieldValue('videoLink', '')
                       formik.setFieldValue('article', '')
-                      formik.setFieldValue('contentType', content.label)
+                      formik.setFieldValue('contentType', content.payloadValue)
                       setActiveContentType(content)
                     }}
                   >

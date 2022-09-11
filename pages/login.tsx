@@ -2,8 +2,13 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { FlaqLoginIcon } from '../icons/FlaqLoginIcon'
 import { FaDiscord } from 'react-icons/fa'
+import axios from 'axios'
 const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const authURL = 'https://discord.com/api/oauth2/authorize?client_id=1007966558527684688&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fverify&response_type=code&scope=identify%20email%20guilds.join';
+  const handleLogin = async() => {
+    window.open(authURL, '_self');
+  }
   return (
     <React.Fragment>
       <div className="bg-login-img h-screen min-w-full bg-no-repeat bg-cover font-secondary">
@@ -23,7 +28,7 @@ const Login = () => {
             <div>
               <button
                 className=" flex items-center justify-center gap-2 px-6 py-2 bg-violet-500 rounded-md hover:bg-violet-600"
-                onClick={() => router.push('/')}
+                onClick={handleLogin}
               >
                 <span className='flex items-center justify-center'>
                   <FaDiscord size='1.25rem' color='white'/>

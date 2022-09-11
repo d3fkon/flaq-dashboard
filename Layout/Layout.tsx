@@ -7,6 +7,7 @@ const Layout = ({ children }: any) => {
   const router = useRouter()
   if (router.pathname.includes('/login')) return children;
   if (router.pathname.includes('/register')) return children;
+  if(router.pathname.includes('/verify')) return children
   return (
     <React.Fragment>
       <section className="flex min-w-full min-h-screen font-primary">
