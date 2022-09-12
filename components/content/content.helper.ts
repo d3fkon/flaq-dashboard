@@ -5,6 +5,8 @@ export const getCreateContentPayload = (formik: any) => {
     description,
     contentType,
     videoLink,
+    videoTitle,
+    videoDescription,
     articleLogo,
     articleTitle,
     articleLink,
@@ -27,13 +29,16 @@ export const getCreateContentPayload = (formik: any) => {
         description,
         contentType,
         ytVideoUrl: videoLink,
+
       })
 
     case 'Articles':
       return (createContentPayload = {
         image,
         title,
-        description,
+        description1: description,
+        description2:'',
+        description3:'',
         contentType,
         articles,
       })

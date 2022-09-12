@@ -24,6 +24,8 @@ const ContentForm = () => {
     description: string
     contentType: string
     videoLink: string
+    videoTitle: string
+    videoDescription: string
     articleLogo: string
     articleTitle: string
     articleLink: string
@@ -35,6 +37,8 @@ const ContentForm = () => {
     description: '',
     contentType: contentOptions[0].label,
     videoLink: '',
+    videoTitle: '',
+    videoDescription: '',
     articleLogo: '',
     articleTitle: '',
     articleLink: '',
@@ -48,7 +52,7 @@ const ContentForm = () => {
       const { key, url } = await getSignedUrl(file)
       const isUploaded = await uploadDoc(url, file)
       if (isUploaded) {
-        const accessFile =`https://flaq-assets.s3.ap-south-1.amazonaws.com/upload/${file.name}`
+        const accessFile = `https://flaq-assets.s3.ap-south-1.amazonaws.com/upload/${file.name}`
         name === 'image' && setImageFile(file)
         name === 'articleLogo' && setArticleLogoFile(file)
         formik.setFieldValue(name, accessFile)
@@ -70,6 +74,19 @@ const ContentForm = () => {
         contentType === 'Video' || contentType === 'VideoAndArticles',
       then: Yup.string().required('Video Link is Required*'),
     }),
+
+    videoTitle: Yup.string().when('contentType', {
+      is: (contentType: string) =>
+        contentType === 'Video' || contentType === 'VideoAndArticles',
+      then: Yup.string().required('Video title is Required*'),
+    }),
+
+    videoDescription: Yup.string().when('contentType', {
+      is: (contentType: string) =>
+        contentType === 'Video' || contentType === 'VideoAndArticles',
+      then: Yup.string().required('Video description is Required*'),
+    }),
+
     articleTitle: Yup.string().when('contentType', {
       is: (contentType: string) =>
         contentType === 'Articles' || contentType === 'VideoAndArticles',
@@ -98,7 +115,7 @@ const ContentForm = () => {
 
   const videoType = (
     <>
-      <div>
+      <div className='flex flex-col justify-center gap-4'>
         <div>
           <h1 className="text-[#818BF5] text-xl font-semibold pb-2">Upload</h1>
         </div>
@@ -114,6 +131,37 @@ const ContentForm = () => {
           {formik.errors.videoLink && formik.touched.videoLink ? (
             <span className="text-xs text-red-500">
               {formik.errors.videoLink}
+            </span>
+          ) : null}
+        </div>
+        <div className="flex flex-col justify-center">
+          <Label htmlFor="">Video Title</Label>
+          <input
+            type="text"
+            className="p-2 border rounded-md border-slate-600"
+            name="videoTitle"
+            value={formik.values.videoTitle}
+            onChange={handleCustomChange}
+          />
+          {formik.errors.videoTitle && formik.touched.videoTitle ? (
+            <span className="text-xs text-red-500">
+              {formik.errors.videoTitle}
+            </span>
+          ) : null}
+        </div>
+
+        <div className="flex flex-col justify-center">
+          <Label htmlFor="">Video Description</Label>
+          <input
+            type="text"
+            className="p-2 border rounded-md border-slate-600"
+            name="videoDescription"
+            value={formik.values.videoDescription}
+            onChange={handleCustomChange}
+          />
+          {formik.errors.videoDescription && formik.touched.videoDescription ? (
+            <span className="text-xs text-red-500">
+              {formik.errors.videoDescription}
             </span>
           ) : null}
         </div>
