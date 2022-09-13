@@ -19,6 +19,16 @@ export const getCreateContentPayload = (formik: any) => {
       iconUrl: articleLogo,
     },
   ]
+  
+  const videos = [
+    {
+      Url: videoLink,
+      Desc: videoDescription,
+      title: videoTitle
+    }
+  ]
+
+
   let createContentPayload
 
   switch (contentType) {
@@ -26,9 +36,9 @@ export const getCreateContentPayload = (formik: any) => {
       return (createContentPayload = {
         image,
         title,
-        description,
+        description1: description,
         contentType,
-        ytVideoUrl: videoLink,
+        videos,
 
       })
 
@@ -37,8 +47,6 @@ export const getCreateContentPayload = (formik: any) => {
         image,
         title,
         description1: description,
-        description2:'',
-        description3:'',
         contentType,
         articles,
       })
@@ -46,9 +54,9 @@ export const getCreateContentPayload = (formik: any) => {
       return (createContentPayload = {
         image,
         title,
-        description,
+        description1: description,
         contentType,
-        ytVideoUrl: videoLink,
+        videos,
         articles,
       })
   }

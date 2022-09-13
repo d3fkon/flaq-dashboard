@@ -10,8 +10,10 @@ import { getRequest, postRequest } from '../../services/api.service'
 import { createContent, getSignedUrl, uploadDoc } from './content.service'
 import axios from 'axios'
 import { getCreateContentPayload } from './content.helper'
+import { toast } from 'react-toastify'
 
-const ContentForm = () => {
+const ContentForm = (props: any) => {
+  const {setShowCreate} = props;
   const [activeContentType, setActiveContentType] = useState(contentOptions[0])
   const [imageFile, setImageFile] = useState('')
   const [articleLogoFile, setArticleLogoFile] = useState('')
@@ -109,7 +111,9 @@ const ContentForm = () => {
       setImageFile('')
       setArticleLogoFile('')
       setActiveContentType(contentOptions[0])
-      formik.resetForm()
+      formik.resetForm();
+      setShowCreate(false);
+      toast.success("Campaign Created")
     },
   })
 

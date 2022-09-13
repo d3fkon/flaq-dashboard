@@ -26,6 +26,6 @@ export const store = createStore(
   composeEnhancers(applyMiddleware(...middleware)))
 
 // assigning store to next wrapper
-const makeStore = () => store;
+// const makeStore = () => store;
 
-export const wrapper = createWrapper(makeStore);
+// export const wrapper = createWrapper(makeStore);

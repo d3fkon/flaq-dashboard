@@ -41,9 +41,6 @@ const MyContent = (props: any) => {
     setCampaigns(res.data[0].campaigns)
   }
 
-  useEffect(() => {
-    console.log(filteredData)
-  }, [filteredData])
   const handleCreateClick = () => {}
   return (
     <React.Fragment>
@@ -79,7 +76,7 @@ const MyContent = (props: any) => {
           })}
         </div>
 
-        <div id="cards-container" className='flex flex-col justify-center gap-6'>
+        <div id="cards-container" className='flex flex-col gap-12 p-4 h-[400px] overflow-scroll'>
           {filteredData?.map((data: any) => {
             return (
               <>

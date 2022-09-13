@@ -5,10 +5,11 @@ import { FlaqIcon } from '../../icons/FlaqIcon'
 import { LibraryIcon } from '../../icons/LibraryIcon'
 import { LogoutIcon } from '../../icons/LogoutIcon'
 import { sidebarOptions } from './sidebar.constants'
-
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router'
 const Sidebar = () => {
   const [activePageId, setActivePageId] = useState(1)
-
+  const router = useRouter();
   const getIcon = (option: any) => {
     switch (option.id) {
       case 1:
@@ -23,6 +24,19 @@ const Sidebar = () => {
         return <LibraryIcon />
     }
   }
+
+  const handleLink = (option: any) => {
+    setActivePageId(option.id)
+    if(option.id !==1){
+      toast.info("Coming soon!")
+    }
+  }
+
+  const handleClick = () => {
+    localStorage.clear();
+    router.push('/login');
+  }
+
   return (
     <>
       <div id="sidebar" className="flex flex-col bg-white md:w-80">
@@ -39,9 +53,10 @@ const Sidebar = () => {
                 <div
                   key={option.id.toString()}
                   className={`flex items-center gap-4 py-3 rounded-r-[1.25rem] text-sm hover:bg-gray-100 cursor-pointer ${
-                    activePageId === option.id && 'bg-black text-white hover:bg-black'
+                    activePageId === option.id &&
+                    'bg-black text-white hover:bg-black'
                   }`}
-                  onClick={() => setActivePageId(option.id)}
+                  onClick={() => handleLink(option)}
                 >
                   <span className="flex items-center justify-center ml-8">
                     {getIcon(option)}
@@ -55,11 +70,11 @@ const Sidebar = () => {
           </div>
 
           <div>
-            <div className="flex items-center gap-4 py-3 rounded-r-[1.25rem] text-sm mb-10 hover:bg-gray-100 cursor-pointer" >
+            <div className="flex items-center gap-4 py-3 rounded-r-[1.25rem] text-sm mb-10 hover:bg-gray-100 cursor-pointer">
               <span className="flex items-center justify-center ml-8">
                 <LogoutIcon />
               </span>
-              <span className="flex items-center justify-center ml-3 font-semibold">
+              <span className="flex items-center justify-center ml-3 font-semibold" onClick={handleClick}>
                 Logout
               </span>
             </div>

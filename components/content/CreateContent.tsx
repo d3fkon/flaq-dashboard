@@ -26,7 +26,7 @@ const CreateContent = (props: any) => {
           </div>
         </div>
 
-        <ContentForm />
+        <ContentForm setShowCreate={setShowCreate}/>
       </div>
     </React.Fragment>
   )

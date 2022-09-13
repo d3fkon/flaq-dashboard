@@ -34,7 +34,7 @@ const RecentHistory = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold my-7">Learning History</h1>
+        {/* <h1 className="text-2xl font-bold my-7">Learning History</h1>
         <div id="learning-history " className="flex flex-col gap-8">
           <div
             id="history-card"
@@ -69,7 +69,7 @@ const RecentHistory = () => {
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   )
