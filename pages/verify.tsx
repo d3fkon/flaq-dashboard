@@ -9,17 +9,17 @@ const AuthMiddlePage = () => {
     if(router?.query?.code){
       const getAuthData = async () => {
         const payload = {code: router?.query?.code}
-        const res = await postRequest('auth/discord-auth', payload)
+        const res = await axios.post('https://api2.flaq.club/auth/discord-auth', payload)
         const userData = res.data;
-        localStorage.setItem('accessToken', userData?.accessToken);
-        localStorage.setItem('userInfo', JSON.stringify(userData?.data));
-        localStorage.setItem('refreshToken', userData?.refreshToken);
+        await localStorage.setItem('accessToken', userData?.accessToken);
+        await localStorage.setItem('userInfo', JSON.stringify(userData?.data));
+        await localStorage.setItem('refreshToken', userData?.refreshToken);
         router.replace('/dashboard')
       }
       getAuthData();
     }
    
-  },[router?.query?.code])
+  },[router])
   return (
     <div>Authenticating</div>
   )

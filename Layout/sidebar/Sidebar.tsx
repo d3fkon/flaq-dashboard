@@ -70,11 +70,11 @@ const Sidebar = () => {
           </div>
 
           <div>
-            <div className="flex items-center gap-4 py-3 rounded-r-[1.25rem] text-sm mb-10 hover:bg-gray-100 cursor-pointer">
+            <div className="flex items-center gap-4 py-3 rounded-r-[1.25rem] text-sm mb-10 hover:bg-gray-100 cursor-pointer" onClick={handleClick}>
               <span className="flex items-center justify-center ml-8">
                 <LogoutIcon />
               </span>
-              <span className="flex items-center justify-center ml-3 font-semibold" onClick={handleClick}>
+              <span className="flex items-center justify-center ml-3 font-semibold" >
                 Logout
               </span>
             </div>

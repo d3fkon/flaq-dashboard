@@ -17,7 +17,7 @@ const MyContent = (props: any) => {
   const dispatch = useDispatch()
   useEffect(() => {
     ;(async () => {
-      await getData()
+      await getProfileData()
       await getAllCampaigns()
     })()
   }, [])
@@ -31,7 +31,7 @@ const MyContent = (props: any) => {
     setFilteredData(filter)
   }, [activeTab, campaigns])
 
-  const getData = async () => {
+  const getProfileData = async () => {
     const res = await getRequest('/creators/profile')
     dispatch(setUserInfo(res.data))
   }
@@ -64,6 +64,7 @@ const MyContent = (props: any) => {
             return (
               <>
                 <button
+                  key={item.id.toString()}
                   className={`text-base ${
                     activeTab.id === item.id && 'text-violet-500'
                   }`}
@@ -77,9 +78,9 @@ const MyContent = (props: any) => {
         </div>
 
         <div id="cards-container" className='flex flex-col gap-12 p-4 h-[400px] overflow-scroll'>
-          {filteredData?.map((data: any) => {
+          {filteredData?.map((data: any,index) => {
             return (
-              <>
+              <React.Fragment  key={index}>
                 <div
                   id="my-content-card"
                   className="flex flex-col gap-3 rounded-3xl p-6 shadow-flaq"
@@ -110,9 +111,8 @@ const MyContent = (props: any) => {
                     </p>
                   </div>
                 </div>
-              </>
-            )
-          })}
+              </React.Fragment>
+            )})}
         </div>
       </div>
     </React.Fragment>
