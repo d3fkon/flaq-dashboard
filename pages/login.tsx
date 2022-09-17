@@ -16,7 +16,7 @@ const Login = () => {
     <React.Fragment>
       <div className="h-screen min-w-full bg-no-repeat bg-cover font-secondary relative">
         <div className='absolute inset h-screen w-screen border-10 border-red-500'>
-        <Image src={image} objectFit="cover" layout='fill'/>
+        <Image src={image} objectFit="cover" layout='fill' alt='flaq-login-image'/>
         </div>
         <div className="h-full flex justify-center items-center relative">
           <div className="max-w-[30rem] flex flex-col items-center gap-20">
