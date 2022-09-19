@@ -12,9 +12,9 @@ const Home: NextPage = () => {
     </React.Fragment>
   )
 }
-export async function getServerSideProps(context:any) {
+export async function getServerSideProps(context: any) {
   return {
-    props: {}, 
+    props: {},
   }
 }
 
