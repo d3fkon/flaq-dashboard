@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlaqLoginIcon } from '../icons/FlaqLoginIcon'
 import { FaDiscord } from 'react-icons/fa'
 import axios from 'axios'
@@ -7,8 +7,7 @@ import Image from 'next/image'
 import image from '../public/flaq-login.png'
 const Login = () => {
   const router = useRouter()
-  const authURL =
-    'https://discord.com/api/oauth2/authorize?client_id=1007966558527684688&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fverify&response_type=code&scope=identify%20email%20guilds.join'
+  const authURL = process.env.NEXT_PUBLIC_DISCORD_URL;
   const handleLogin = async () => {
     window.open(authURL, '_self')
   }

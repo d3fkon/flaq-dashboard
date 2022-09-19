@@ -5,7 +5,7 @@ if (typeof window !== 'undefined') {
   token = localStorage.getItem('accessToken')
 }
 const httpRequest = axios.create({
-  baseURL: 'https://api2.flaq.club/',
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     'x-access-token': token ? token : ""
   }
@@ -30,3 +30,5 @@ export async function putRequest(URL:string, payload:any) {
 export async function deleteRequest(URL:string) {
   return await httpRequest.delete(`${URL}`);
 }
+
+// NEXT_PUBLIC_BASE_URL=https://api2.flaq.club/

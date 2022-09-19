@@ -24,7 +24,7 @@ export const getSignedUrl = async (file:any) => {
       fileName:  file.name.split(`.`)[0],
       fileExtention:  file.name.split('.').pop()
     }
-    const response = await axios.post('https://api2.flaq.club/utils', body);
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}utils`, body);
     return response.status === 201 && response.data;
   } catch (error) {
     console.log(error);
