@@ -6,7 +6,14 @@ import axios from 'axios'
 import Image from 'next/image'
 import image from '../public/flaq-login.png'
 const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
+  useEffect(()=>{
+    if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      const token = localStorage.getItem('accessToken');
+      token && router.replace('/dashboard')
+    }
+  },[])
   const authURL = process.env.NEXT_PUBLIC_DISCORD_URL;
   const handleLogin = async () => {
     window.open(authURL, '_self')

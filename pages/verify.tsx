@@ -5,11 +5,13 @@ import { HashLoader } from 'react-spinners'
 
 const AuthMiddlePage = () => {
   const router = useRouter()
+
   useEffect(() => {
     if (router?.query?.code) {
       const getAuthData = async () => {
         const payload = {code: router?.query?.code}
         const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}auth/discord-auth`, payload)
+        !res.data?.accessToken && router.replace('/login')
         const userData = res.data;
         await localStorage.setItem('accessToken', userData?.accessToken);
         await localStorage.setItem('userInfo', JSON.stringify(userData?.data));
@@ -18,6 +20,7 @@ const AuthMiddlePage = () => {
       }
       getAuthData()
     }
+    
   }, [router])
   return (
     <div className="h-screen w-screen bg-black flex items-center justify-center">

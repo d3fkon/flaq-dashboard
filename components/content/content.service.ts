@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { postRequest } from "../../services/api.service"
 
 /**
@@ -8,8 +9,9 @@ import { postRequest } from "../../services/api.service"
 export const createContent = async (payload:any) => {
   try {
     const response = await postRequest("creators/campaign/create", payload)
+    response.status=== 200 && toast.success("Campaign Created")
   } catch (error) {
-    console.log(error);
+    toast.error("Something went wrong please try again!")
   }
 }
 
@@ -24,7 +26,7 @@ export const getSignedUrl = async (file:any) => {
       fileName:  file.name.split(`.`)[0],
       fileExtention:  file.name.split('.').pop()
     }
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}utils`, body);
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}utils/aws/file-upload`, body);
     return response.status === 201 && response.data;
   } catch (error) {
     console.log(error);

@@ -113,7 +113,7 @@ const ContentForm = (props: any) => {
       setActiveContentType(contentOptions[0])
       formik.resetForm();
       setShowCreate(false);
-      toast.success("Campaign Created")
+      
     },
   })
 
