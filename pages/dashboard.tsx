@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       const token = localStorage.getItem('accessToken');
       !token && router.replace('/login')
     }
-  },[])
+  },[router])
   return (
     <React.Fragment>
       <Content />

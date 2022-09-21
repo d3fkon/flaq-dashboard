@@ -13,7 +13,7 @@ const Login = () => {
       const token = localStorage.getItem('accessToken');
       token && router.replace('/dashboard')
     }
-  },[])
+  },[router])
   const authURL = process.env.NEXT_PUBLIC_DISCORD_URL;
   const handleLogin = async () => {
     window.open(authURL, '_self')
