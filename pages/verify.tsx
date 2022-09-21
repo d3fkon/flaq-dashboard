@@ -18,8 +18,8 @@ const AuthMiddlePage = () => {
           await localStorage.setItem('accessToken', userData?.accessToken);
           await localStorage.setItem('userInfo', JSON.stringify(userData?.data));
           await localStorage.setItem('refreshToken', userData?.refreshToken);
-          router.replace('/dashboard');
-          setTimeout(()=>{toast.success(`Hey ${userData?.data?.username}`)},1000) 
+          await router.replace('/dashboard');
+          res.status===201 && setTimeout(()=>{toast.success(`Hey ${userData?.data?.username}`)},1000) 
         } catch (error) {
           router.replace('/login');
           toast.error("Something went wrong please try again!")
